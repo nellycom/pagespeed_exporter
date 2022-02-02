@@ -26,16 +26,20 @@ type httpProbeHandler struct {
 	parallel         bool
 	collectorFactory collector.Factory
 	pushGatewayUrl   string
-	pushGatewayJob   string
+	pushGatewayJob   string	
+	pushGatewayBasicAuthUsername   string
+	pushGatewayBasicAuthPasswd   string
 }
 
-func NewProbeHandler(apiKey string, parallel bool, factory collector.Factory, pushGatewayUrl string, pushGatewayJob string) http.Handler {
+func NewProbeHandler(apiKey string, parallel bool, factory collector.Factory, pushGatewayUrl string, pushGatewayJob string, pushGatewayBasicAuthUsername string, pushGatewayBasicAuthPasswd string) http.Handler {
 	return httpProbeHandler{
 		googleAPIKey:     apiKey,
 		parallel:         parallel,
 		collectorFactory: factory,
 		pushGatewayUrl:   pushGatewayUrl,
 		pushGatewayJob:   pushGatewayJob,
+		pushGatewayBasicAuthUsername:   pushGatewayBasicAuthUsername,
+		pushGatewayBasicAuthPasswd:   pushGatewayBasicAuthPasswd,
 	}
 }
 
@@ -84,7 +88,7 @@ func (ph httpProbeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ph.pushGatewayUrl != "" {
-		if err := push.New(ph.pushGatewayUrl, ph.pushGatewayJob).Collector(psc).Push(); err != nil {
+		if err := push.New(ph.pushGatewayUrl, ph.pushGatewayJob).Collector(psc).BasicAuth(pushGatewayBasicAuthUsername, pushGatewayBasicAuthPasswd).Push(); err != nil {
 			errResponse(w, "Error when tried to push to pushgateaway", err)
 		} else {
 			log.Info(fmt.Sprintf("pushed to pushgateway %s job %s with success", ph.pushGatewayUrl, ph.pushGatewayJob))
