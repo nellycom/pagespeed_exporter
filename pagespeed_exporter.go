@@ -15,13 +15,13 @@ import (
 )
 
 var (
-	googleApiKey    string
-	listenerAddress string
-	targets         arrayFlags
-	parallel        bool
-	pushGatewayUrl  string
-	pushGatewayJob  string
-	pushGatewayBasicAuthUsername   string
+	googleApiKey                 string
+	listenerAddress              string
+	targets                      arrayFlags
+	parallel                     bool
+	pushGatewayUrl               string
+	pushGatewayJob               string
+	pushGatewayBasicAuthUsername string
 	pushGatewayBasicAuthPasswd   string
 )
 

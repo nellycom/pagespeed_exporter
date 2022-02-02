@@ -88,7 +88,7 @@ func (ph httpProbeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ph.pushGatewayUrl != "" {
-		if err := push.New(ph.pushGatewayUrl, ph.pushGatewayJob).Collector(psc).BasicAuth(pushGatewayBasicAuthUsername, pushGatewayBasicAuthPasswd).Push(); err != nil {
+		if err := push.New(ph.pushGatewayUrl, ph.pushGatewayJob).Collector(psc).BasicAuth(ph.pushGatewayBasicAuthUsername, ph.pushGatewayBasicAuthPasswd).Push(); err != nil {
 			errResponse(w, "Error when tried to push to pushgateaway", err)
 		} else {
 			log.Info(fmt.Sprintf("pushed to pushgateway %s job %s with success", ph.pushGatewayUrl, ph.pushGatewayJob))
