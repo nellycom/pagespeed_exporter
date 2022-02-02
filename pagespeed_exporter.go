@@ -21,6 +21,8 @@ var (
 	parallel        bool
 	pushGatewayUrl  string
 	pushGatewayJob  string
+	pushGatewayBasicAuthUsername   string
+	pushGatewayBasicAuthPasswd   string
 )
 
 var (
@@ -62,7 +64,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/", handler.NewIndexHandler())
 	mux.Handle("/metrics", promhttp.Handler())
-	mux.Handle("/probe", handler.NewProbeHandler(googleApiKey, parallel, collectorFactory, pushGatewayUrl, pushGatewayJob))
+	mux.Handle("/probe", handler.NewProbeHandler(googleApiKey, parallel, collectorFactory, pushGatewayUrl, pushGatewayJob, pushGatewayBasicAuthUsername, pushGatewayBasicAuthPasswd))
 
 	server := http.Server{
 		Addr:    listenerAddress,
